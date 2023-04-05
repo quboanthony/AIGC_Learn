@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+</head>
+<body>
+    <h1>User Dashboard</h1>
+    <p>Welcome, {{ current_user.username }}!</p>
+    <p>API Token Balance: {{ api_tokens }}</p>
+    <a href="{{ url_for('chat') }}">Start Chatting</a>
+    <br>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>

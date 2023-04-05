@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Chat with Chatbot</h1>
+    <div id="chat-window" style="border: 1px solid black; width: 80%; height: 400px; overflow-y: scroll; padding: 10px;">
+    </div>
+    <br>
+    <input type="text" id="user-input" placeholder="Type your message here..." style="width: 80%;">
+    <br>
+    <button id="send-btn">Send</button>
+    <script>
+        $(document).ready(function() {
+            $("#send-btn").click(function() {
+                let user_input = $("#user-input").val();
+                if (user_input) {
+                    $("#chat-window").append("<p><b>You:</b> " + user_input + "</p>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ url_for('chat_interact') }}",
+                        data: {
+                            prompt: user_input,
+                        },
+                        success: function(data) {
+                            $("#chat-window").append("<p><b>Chatbot:</b> " + data.response + "</p>");
+                            $("#chat-window").scrollTop($("#chat-window")[0].scrollHeight);
+                        },
+                    });
+                }
+                $("#user-input").val("");
+            });
+            $("#user-input").on("keydown", function(e) {
+                if (e.keyCode === 13) {
+                    $("#send-btn").click();
+                }
+            });
+        });
+    </script>
+    <br>
+    <a href="{{ url_for('user_dashboard') }}">Go back to user dashboard</a>
+    <br>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
